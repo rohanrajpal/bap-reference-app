@@ -1,11 +1,14 @@
-# Beckn in a Box BAP
-
-## Overview
+# <div align="center"> Beckn in a Box BAP </div>
 
 This repository contains the instructions and files required to deploy this
 Beckn Application (BAP) or any of its building blocks individually.
 
-This BAP comprises of four building blocks:
+## Overview
+
+This BAP comprises of four building blocks: the UI layer, the Beckn protocol
+client, the Beckn protocol helper and the protocol DTOs.
+
+![Technical Architecture Diagram](documentation/assets/technical-architecture.png)
 
 ### UI Layer
 
@@ -35,6 +38,17 @@ The [`protocol-dtos`](https://github.com/beckn/protocol-dtos) repository
 contains schema definitions that are used in all 3 building blocks. It is
 written in [`kotlin`](https://kotlinlang.org/).
 
-#### Technical Architecture Diagram
+## Usage
 
-![Technical Architecture Diagram](documentation/assets/technical-architecture.png)
+All four building blocks are designed such that they can be used individually or
+together. Each building block has a docker file that builds the component as a
+docker image. View the
+[readme in the `deployment/docker` directory](deployment/docker/readme.md) for
+more details.
+
+## Issues/Contributing
+
+For any questions, please
+[open a new discussion](https://github.com/gamemaker1/bap-reference-app/discussions/new).
+If you wish to contribute, please feel free to discuss, pick up any issue and
+implement the bug fix/feature request!
