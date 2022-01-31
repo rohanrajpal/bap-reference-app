@@ -26,7 +26,7 @@ services:
   # The Mongo database instance, required by the protocol helper.
   mongo:
     # Pull the image from the official repos.
-    image: mongo:4.0.10
+    image: mongo
     # Expose it on localhost port 27017.
     ports:
       - 27017:27017
@@ -38,7 +38,6 @@ services:
     build:
       context: protocol-helper
       dockerfile: protocol-helper.dockerfile
-    tty: true
     # Expose it on localhost port 9002.
     ports:
       - '9002:9002'
