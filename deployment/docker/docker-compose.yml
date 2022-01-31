@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  biab-bap-client:
+    build:
+      context : client
+      dockerfile: client.dockerfile
+    ports:
+     - "9001:9001"
+
+  mongo:
+    image: mongo:4.0.10
+    ports:
+    - 27017:27017
+    command: --smallfiles
+
+  biab-bap-protocol:
+    build:
+      context : protocol-helper
+      dockerfile: protocol-helper.dockerfile
+    tty: true
+    ports:
+     - "9002:9002" 
+    links:
+      - mongo
+
+  storefront-ui:
+    build:
+      context: storefront
+      dockerfile: ui.dockerfile
+    ports:
+    - "8080:8080"
+    environment:
+     - MAPS_KEY=SOMEKEY"
