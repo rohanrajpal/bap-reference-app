@@ -52,8 +52,10 @@ services:
       context: storefront
       dockerfile: ui.dockerfile
     # Expose it on localhost port 8080.
+    # Expose it on localhost port 3000.
     ports:
       - '8080:8080'
+      - '3000:3000'
     # Pass environment variables to it.
     environment:
       - MAPS_KEY="some-key"
