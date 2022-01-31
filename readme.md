@@ -2,33 +2,38 @@
 
 ## Overview
 
-The BIAB BAP is comprised of 3 layers:
+This repository contains the instructions and files required to deploy this
+Beckn Application (BAP) or any of its building blocks individually.
 
-- UI Layer: The UI layer is the frontend implemented using Vue.js Storefront.
-  The UI layer interacts with the client layer using the client protocol API
-  definitions defined here.
-- Client Layer: The client layer receives inputs from the UI layer and initiates
-  Beckn protocol calls to the Beckn network. The client layer interacts with the
-  protocol layer to get the responses from protocol callbacks. It is implemented
-  using Kotlin.
-- Protocol Layer: The protocol layer receives protocol callback responses from
-  the Beckn network and saves them to the database. It is implemented using
-  Kotlin.
+This BAP comprises of four building blocks:
 
-The `protocol-dtos` is a repo that contains all the schema objects which are
-used across the protocol, and the client levels. The JAR is versioned and
-imported as dependency of the client and protocol repos.
+### UI Layer
 
-You can see the logical architecture below:
+The UI layer is a Progressive Web Application implemented in
+[`vue`](https://github.com/vuejs/vue) using the
+[storefront](https://github.com/vuestorefront/vue-storefront) framework. The UI
+layer interacts with the beckn protocol client to perform operations using the
+Beckn protocol.
 
-![Technical Architecture](./documentation/assets/technical-architecture.png)
+### Beckn Protocol Client
 
-One whole API call and callback would be as below :
+The beckn protocol client receives inputs from the UI layer and makes calls
+using the Beckn protocol to the Beckn network. The beckn protocol client
+interacts with the protocol layer to get responses (provided via callbacks) from
+the Beckn network. It is written in Kotlin.
 
-- The UI layer calls the Client Layer to trigger the BAP protocol calls to the
-  Beckn Network
-- The Client layer makes the call to the Beckn network
-- The callback response comes to the BAP protocol endpoint on the protocol layer
-  and the response is saved to the database.
-- The UI layer polls the client layer using messageId for responses. The client
-  layer calls the protocol layer to get the response saved to the database.
+### Protocol Helper
+
+The protocol helper receives callback responses from the Beckn network and saves
+them to a MongoDB database. The beckn protocol client then queries this layer to
+retrieve the responses. It is written in Kotlin.
+
+### Protocol DTOs
+
+The [`protocol-dtos`](https://github.com/beckn/protocol-dtos) repository
+contains schema definitions that are used in all 3 building blocks. It is
+written in Kotlin.
+
+#### Technical Architecture Diagram
+
+![Technical Architecture Diagram](documentation/assets/technical-architecture.png)
