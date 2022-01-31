@@ -43,12 +43,12 @@ written in [`kotlin`](https://kotlinlang.org/).
 All four building blocks are designed such that they can be used individually or
 together. Each building block has a docker file that builds the component as a
 docker image. View the
-[readme in the `deployment/docker` directory](deployment/docker/readme.md) for
-more details.
+[docker deployment guide](documentation/guides/deployment/docker.md) for more
+details.
 
 ## Issues/Contributing
 
-For any questions, please
-[open a new discussion](https://github.com/gamemaker1/bap-reference-app/discussions/new).
+For any questions, please don't hesitate to
+[open a new discussion](https://github.com/beckn/bap-reference-app/discussions/new).
 If you wish to contribute, please feel free to discuss, pick up any issue and
 implement the bug fix/feature request!

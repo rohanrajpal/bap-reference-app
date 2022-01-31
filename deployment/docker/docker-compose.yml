@@ -1,34 +1,60 @@
+# docker-compose.yaml
+# Builds and runs all three components of the BAP.
+
 version: '3'
 
 services:
-  biab-bap-client:
+  # The base image for the Beckn protocol client and Beckn protocol helper.
+  base:
+    # Call the built image `bap-base`
+    image: bap-base
+    # Build it from `base.dockerfile` in the current directory.
     build:
-      context : client
-      dockerfile: client.dockerfile
-    ports:
-     - "9001:9001"
+      context: .
+      dockerfile: base.dockerfile
 
-  mongo:
-    image: mongo:4.0.10
+  # The Beckn protocol client.
+  client:
+    # Build it from the docker file in the `client/` directory.
+    build:
+      context: client
+      dockerfile: client.dockerfile
+    # Expose it on localhost port 9001.
     ports:
-    - 27017:27017
+      - '9001:9001'
+
+  # The Mongo database instance, required by the protocol helper.
+  mongo:
+    # Pull the image from the official repos.
+    image: mongo:4.0.10
+    # Expose it on localhost port 27017.
+    ports:
+      - 27017:27017
     command: --smallfiles
 
-  biab-bap-protocol:
+  # The Beckn protocol helper.
+  protocol-helper:
+    # Build it from the docker file in the `protocol-helper/` directory.
     build:
-      context : protocol-helper
+      context: protocol-helper
       dockerfile: protocol-helper.dockerfile
     tty: true
+    # Expose it on localhost port 9002.
     ports:
-     - "9002:9002" 
+      - '9002:9002'
+    # Allow the database instance to be accessed from this container.
     links:
       - mongo
 
+  # The actual storefront UI.
   storefront-ui:
+    # Build it from the docker file in the `storefront/` directory.
     build:
       context: storefront
       dockerfile: ui.dockerfile
+    # Expose it on localhost port 8080.
     ports:
-    - "8080:8080"
+      - '8080:8080'
+    # Pass environment variables to it.
     environment:
-     - MAPS_KEY=SOMEKEY"
+      - MAPS_KEY="some-key"
