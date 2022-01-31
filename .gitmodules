@@ -1,0 +1,12 @@
+[submodule "sources/client"]
+	path = sources/client
+	url = gh:beckn/biab-bap-client.git
+[submodule "sources/protocol-helper"]
+	path = sources/protocol-helper
+	url = gh:beckn/biab-bap-protocol.git
+[submodule "sources/storefront-ui"]
+	path = sources/storefront-ui
+	url = gh:beckn/biab-storefront-ui.git
+[submodule "sources/protocol-dtos"]
+	path = sources/protocol-dtos
+	url = gh:beckn/beckn-protocol-dtos.git
