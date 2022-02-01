@@ -1,0 +1,59 @@
+# .github/workflows/ci.yaml
+# This file defines the workflows to be run with GitHub Actions on every push.
+
+name: CI
+
+# Run the `Test` action on push to the `develop` branch, and the `Test` and
+# `Publish` actions on a tag push to the `stable` branch.
+on:
+  push:
+    branches:
+      - develop
+      - stable
+
+# The jobs to run.
+jobs:
+  # Build and test
+  test:
+    name: Test
+    # Run the job on a Linux machine.
+    runs-on: ubuntu-latest
+    steps:
+      # `git-clone` the repository on the branch that a push occurred on.
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      # Build each image
+      - name: Build all Docker images
+        run: |
+          cd deployment/docker
+          docker build --tag bap-base --file base.dockerfile .
+          docker build --tag bap-client --file client.dockerfile client
+          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile protocol-helper
+          docker build --tag bap-storefront-ui --file ui.dockerfile storefront
+  publish:
+    name: Publish
+    # Run the `Publish` action only if the developer has pushed a tag to GitHub
+    # and the `Test` job succeeds.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    # Run the job on a Linux machine.
+    runs-on: ubuntu-latest
+    steps:
+      # `git-clone` the repository on the branch that a push occurred on (this should be the `stable` branch).
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      # Build and tag all the images and prepare for a push.
+      - name: Build all Docker images
+        run: |
+          cd deployment/docker
+          docker build --tag ghcr.io/gamemaker1/beckn-bap-base:latest --file base.dockerfile .
+          docker build --tag ghcr.io/gamemaker1/beckn-bap-client:latest --file client.dockerfile client
+          docker build --tag ghcr.io/gamemaker1/beckn-bap-protocol-helper:latest --file protocol-helper.dockerfile protocol-helper
+          docker build --tag ghcr.io/gamemaker1/beckn-bap-storefront-ui:latest --file ui.dockerfile storefront
+      # Publish all the images to GHCR.
+      - name: Publish images to GitHub Container Registry
+        run: |
+          docker push ghcr.io/gamemaker1/beckn-bap-base:latest
+          docker push ghcr.io/gamemaker1/beckn-bap-client:latest
+          docker push ghcr.io/gamemaker1/beckn-bap-protocol-helper:latest
+          docker push ghcr.io/gamemaker1/beckn-bap-storefront-ui:latest
