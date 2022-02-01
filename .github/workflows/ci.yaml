@@ -22,14 +22,14 @@ jobs:
       # `git-clone` the repository on the branch that a push occurred on.
       - name: Checkout the repository
         uses: actions/checkout@v2
-      # Build each image
+      # Build each Docker image.
       - name: Build all Docker images
         run: |
           cd deployment/docker
           docker build --tag bap-base --file base.dockerfile .
-          docker build --tag bap-client --file client.dockerfile client
-          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile protocol-helper
-          docker build --tag bap-storefront-ui --file ui.dockerfile storefront
+          cd client && docker build --tag bap-client --file client.dockerfile .
+          cd protocol-helper && docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
+          cd storefront && docker build --tag bap-storefront-ui --file ui.dockerfile .
   publish:
     name: Publish
     # Run the `Publish` action only if the developer has pushed a tag to GitHub
@@ -47,9 +47,9 @@ jobs:
         run: |
           cd deployment/docker
           docker build --tag ghcr.io/gamemaker1/beckn-bap-base:latest --file base.dockerfile .
-          docker build --tag ghcr.io/gamemaker1/beckn-bap-client:latest --file client.dockerfile client
-          docker build --tag ghcr.io/gamemaker1/beckn-bap-protocol-helper:latest --file protocol-helper.dockerfile protocol-helper
-          docker build --tag ghcr.io/gamemaker1/beckn-bap-storefront-ui:latest --file ui.dockerfile storefront
+          cd client && docker build --tag bap-client --file client.dockerfile .
+          cd protocol-helper && docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
+          cd storefront && docker build --tag bap-storefront-ui --file ui.dockerfile .
       # Publish all the images to GHCR.
       - name: Publish images to GitHub Container Registry
         run: |
