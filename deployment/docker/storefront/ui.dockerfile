@@ -10,7 +10,7 @@ RUN apk update
 RUN apk add g++ make python3 git
 
 # Clone the git repository into the `app` direcotry.
-RUN git clone https://github.com/beckn/biab-storefront-ui.git /app
+RUN git clone https://github.com/gamemaker1/biab-storefront-ui.git /app
 WORKDIR /app
 
 # Build the package

@@ -1,6 +1,6 @@
 [submodule "sources/client"]
 	path = sources/client
-	url = ggit@github.com:beckn/biab-bap-client.git
+	url = git@github.com:beckn/biab-bap-client.git
 [submodule "sources/protocol-helper"]
 	path = sources/protocol-helper
 	url = git@github.com:beckn/biab-bap-protocol.git

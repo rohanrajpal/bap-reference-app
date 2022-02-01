@@ -60,6 +60,8 @@ Run the following commands in terminal:
 # Move into the `deployment/docker` folder.
 > cd ~/beckn-in-a-box
 > cd deployment/docker
+# Build the base image needed for all the components.
+> docker build --tag bap-base --file base.dockerfile .
 # Build and run the application.
 > docker compose up
 ```

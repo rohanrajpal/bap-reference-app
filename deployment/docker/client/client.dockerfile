@@ -7,7 +7,7 @@
 FROM bap-base as build
 
 # Clone the git repository into the `sources/client` direcotry.
-RUN git clone https://github.com/beckn/biab-bap-client.git /sources/client
+RUN git clone https://github.com/gamemaker1/biab-bap-client.git /sources/client
 # Move into the directory.
 WORKDIR /sources/client
 # Build the package.
