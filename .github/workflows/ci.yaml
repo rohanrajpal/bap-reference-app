@@ -23,13 +23,22 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v2
       # Build each Docker image.
-      - name: Build all Docker images
+      - name: Build `bap-base`
         run: |
           cd deployment/docker
           docker build --tag bap-base --file base.dockerfile .
-          cd client && docker build --tag bap-client --file client.dockerfile .
-          cd protocol-helper && docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
-          cd storefront && docker build --tag bap-storefront-ui --file ui.dockerfile .
+      - name: Build `bap-client`
+        run: |
+          cd deployment/docker/client
+          docker build --tag bap-client --file client.dockerfile .
+      - name: Build `bap-protocol-helper`
+        run: |
+          cd deployment/docker/protocol-helper
+          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
+      - name: Build `bap-storefront-ui`
+        run: |
+          cd deployment/docker/storefront
+          docker build --tag bap-storefront-ui --file ui.dockerfile .
   publish:
     name: Publish
     # Run the `Publish` action only if the developer has pushed a tag to GitHub
@@ -42,14 +51,23 @@ jobs:
       # `git-clone` the repository on the branch that a push occurred on (this should be the `stable` branch).
       - name: Checkout the repository
         uses: actions/checkout@v2
-      # Build and tag all the images and prepare for a push.
-      - name: Build all Docker images
+      # Build and tag each Docker image.
+      - name: Build `bap-base`
         run: |
           cd deployment/docker
-          docker build --tag ghcr.io/gamemaker1/beckn-bap-base:latest --file base.dockerfile .
-          cd client && docker build --tag bap-client --file client.dockerfile .
-          cd protocol-helper && docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
-          cd storefront && docker build --tag bap-storefront-ui --file ui.dockerfile .
+          docker build --tag bap-base --file base.dockerfile .
+      - name: Build `bap-client`
+        run: |
+          cd deployment/docker/client
+          docker build --tag bap-client --file client.dockerfile .
+      - name: Build `bap-protocol-helper`
+        run: |
+          cd deployment/docker/protocol-helper
+          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
+      - name: Build `bap-storefront-ui`
+        run: |
+          cd deployment/docker/storefront
+          docker build --tag bap-storefront-ui --file ui.dockerfile .
       # Publish all the images to GHCR.
       - name: Publish images to GitHub Container Registry
         run: |
