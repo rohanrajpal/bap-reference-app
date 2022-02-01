@@ -28,7 +28,7 @@ services:
       - 9001:9001
     # Provide configuration through environment variables
     environment:
-      - DATABASE_URL=mongodb://ddatabase:27017/client
+      - DATABASE_URL=mongodb://database:27017/client
     # The protocol helper requires mongo to be running
     depends_on:
       database:
