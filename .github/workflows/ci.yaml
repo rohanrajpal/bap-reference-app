@@ -37,6 +37,8 @@ jobs:
       # `git-clone` the repository on the branch that a push occurred on (this should be the `stable` branch).
       - name: Checkout the repository
         uses: actions/checkout@v2
+        with:
+          submodules: true
       # Build and tag each Docker image.
       - name: Build and tag each Docker image
         run: ./scripts/build
