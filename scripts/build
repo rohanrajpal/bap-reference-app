@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Ensure the submodules are up to date
+git submodule update
+
 # Make a `build/` folder
 rm -rf build && mkdir build && cd build
 
