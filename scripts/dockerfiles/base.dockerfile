@@ -6,8 +6,8 @@
 # Use JDK 11
 FROM gradle:jdk11
 
-# Clone the git repository into the `sources/protocol-dtos` direcotry.
-RUN git clone https://github.com/beckn/beckn-protocol-dtos.git /sources/protocol-dtos
+# Copy the provided sources into the `sources/protocol-dtos` direcotry.
+COPY ./sources/protocol-dtos /sources/protocol-dtos
 # Move into the directory.
 WORKDIR /sources/protocol-dtos
 # Build and publish the package.

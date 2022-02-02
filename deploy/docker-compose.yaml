@@ -19,10 +19,8 @@ services:
   client:
     container_name: client
     hostname: client
-    # Build it from the docker file in the `client/` directory.
-    build:
-      context: client
-      dockerfile: client.dockerfile
+    # Pull the image from GHCR.
+    image: ghcr.io/gamemaker1/bap-client
     # Expose it on localhost port 9001.
     ports:
       - 9001:9001
@@ -38,10 +36,8 @@ services:
   protocol-helper:
     container_name: protocol-helper
     hostname: protocol-helper
-    # Build it from the docker file in the `protocol-helper/` directory.
-    build:
-      context: protocol-helper
-      dockerfile: protocol-helper.dockerfile
+    # Pull the image from GHCR.
+    image: ghcr.io/gamemaker1/bap-protocol-helper
     # Expose it on localhost port 9002.
     ports:
       - 9002:9002
@@ -53,14 +49,12 @@ services:
       database:
         condition: service_started
 
-  # The actual storefront UI.
-  storefront-ui:
-    container_name: storefront-ui
-    hostname: storefront-ui
-    # Build it from the docker file in the `storefront/` directory.
-    build:
-      context: storefront
-      dockerfile: ui.dockerfile
+  # The storefront UI.
+  storefront:
+    container_name: storefront
+    hostname: storefront
+    # Pull the image from GHCR.
+    image: ghcr.io/gamemaker1/bap-storefront
     # Expose it on localhost port 3000.
     ports:
       - 3000:3000

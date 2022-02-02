@@ -8,7 +8,7 @@ Beckn Application (BAP) or any of its building blocks individually.
 This BAP comprises of four building blocks: the UI layer, the Beckn protocol
 client, the Beckn protocol helper and the protocol DTOs.
 
-![Technical Architecture Diagram](documentation/assets/technical-architecture.png)
+![Technical Architecture Diagram](docs/assets/technical-architecture.png)
 
 ### UI Layer
 
@@ -43,8 +43,7 @@ written in [`kotlin`](https://kotlinlang.org/).
 All four building blocks are designed such that they can be used individually or
 together. Each building block has a docker file that builds the component as a
 docker image. View the
-[docker deployment guide](documentation/guides/deployment/docker.md) for more
-details.
+[docker deployment guide](docs/guides/deployment/docker.md) for more details.
 
 ## Issues/Contributing
 

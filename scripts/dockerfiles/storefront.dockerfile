@@ -9,8 +9,9 @@ FROM node:14.18.1-alpine as build
 RUN apk update
 RUN apk add g++ make python3 git
 
-# Clone the git repository into the `app` direcotry.
-RUN git clone https://github.com/gamemaker1/biab-storefront-ui.git /app
+# Copy the provided sources into the `app` direcotry.
+COPY ./sources/storefront /app
+COPY ./storefront.entrypoint /app
 WORKDIR /app
 
 # Build the package
@@ -33,8 +34,8 @@ COPY --from=build /app/nginx.conf.j2 /etc/nginx/nginx.conf
 
 # Set the application entrypoint
 WORKDIR /usr/share/nginx/html
-RUN chmod +x entrypoint.sh
-CMD ["./entrypoint.sh"]
+RUN chmod +x ./storefront.entrypoint
+CMD ["bash", "./storefront.entrypoint"]
 
 # Export port 8080, which 
 EXPOSE 8080

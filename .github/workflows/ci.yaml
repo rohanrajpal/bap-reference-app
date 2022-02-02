@@ -3,7 +3,7 @@
 
 name: CI
 
-# Run the `Test` action on push to the `develop` branch, and the `Test` and
+# Run the `Build` action on push to the `develop` branch, and the `Build` and
 # `Publish` actions on a tag push to the `stable` branch.
 on:
   push:
@@ -14,37 +14,23 @@ on:
 # The jobs to run.
 jobs:
   # Build and test
-  test:
-    name: Test
+  build:
+    name: Build
     # Run the job on a Linux machine.
     runs-on: ubuntu-latest
     steps:
       # `git-clone` the repository on the branch that a push occurred on.
       - name: Checkout the repository
         uses: actions/checkout@v2
-      # Build each Docker image.
-      - name: Build `bap-base`
-        run: |
-          cd deployment/docker
-          docker build --tag bap-base --file base.dockerfile .
-      - name: Build `bap-client`
-        run: |
-          cd deployment/docker/client
-          docker build --tag bap-client --file client.dockerfile .
-      - name: Build `bap-protocol-helper`
-        run: |
-          cd deployment/docker/protocol-helper
-          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
-      - name: Build `bap-storefront-ui`
-        run: |
-          cd deployment/docker/storefront
-          docker build --tag bap-storefront-ui --file ui.dockerfile .
+      # Build and tag each Docker image.
+      - name: Build and tag each Docker image
+        run: ./scripts/build
   publish:
     name: Publish
     # Run the `Publish` action only if the developer has pushed a tag to GitHub
-    # and the `Test` job succeeds.
+    # and the `Build` job succeeds.
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: test
+    needs: build
     # Run the job on a Linux machine.
     runs-on: ubuntu-latest
     steps:
@@ -52,26 +38,12 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v2
       # Build and tag each Docker image.
-      - name: Build `bap-base`
-        run: |
-          cd deployment/docker
-          docker build --tag bap-base --file base.dockerfile .
-      - name: Build `bap-client`
-        run: |
-          cd deployment/docker/client
-          docker build --tag bap-client --file client.dockerfile .
-      - name: Build `bap-protocol-helper`
-        run: |
-          cd deployment/docker/protocol-helper
-          docker build --tag bap-protocol-helper --file protocol-helper.dockerfile .
-      - name: Build `bap-storefront-ui`
-        run: |
-          cd deployment/docker/storefront
-          docker build --tag bap-storefront-ui --file ui.dockerfile .
+      - name: Build and tag each Docker image
+        run: ./scripts/build
       # Publish all the images to GHCR.
       - name: Publish images to GitHub Container Registry
         run: |
-          docker push ghcr.io/gamemaker1/beckn-bap-base:latest
-          docker push ghcr.io/gamemaker1/beckn-bap-client:latest
-          docker push ghcr.io/gamemaker1/beckn-bap-protocol-helper:latest
-          docker push ghcr.io/gamemaker1/beckn-bap-storefront-ui:latest
+          docker push ghcr.io/gamemaker1/bap-base:latest
+          docker push ghcr.io/gamemaker1/bap-client:latest
+          docker push ghcr.io/gamemaker1/bap-protocol-helper:latest
+          docker push ghcr.io/gamemaker1/bap-storefront-ui:latest

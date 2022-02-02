@@ -4,9 +4,9 @@
 [submodule "sources/protocol-helper"]
 	path = sources/protocol-helper
 	url = git@github.com:beckn/biab-bap-protocol.git
-[submodule "sources/storefront-ui"]
-	path = sources/storefront-ui
-	url = git@github.com:beckn/biab-storefront-ui.git
+[submodule "sources/storefront"]
+	path = sources/storefront
+	url = gh:beckn/biab-storefront-ui.git
 [submodule "sources/protocol-dtos"]
 	path = sources/protocol-dtos
 	url = git@github.com:beckn/beckn-protocol-dtos.git

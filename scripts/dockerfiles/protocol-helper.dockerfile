@@ -6,8 +6,8 @@
 # Use the base image defined in `base.dockerfile`
 FROM bap-base as build
 
-# Clone the git repository into the `sources/protocol-helper` direcotry.
-RUN git clone https://github.com/gamemaker1/biab-bap-protocol.git /sources/protocol-helper
+# Copy the provided sources into the `sources/protocol-helper` direcotry.
+COPY ./sources/protocol-helper /sources/protocol-helper
 # Move into the directory.
 WORKDIR /sources/protocol-helper
 # Build the package.
